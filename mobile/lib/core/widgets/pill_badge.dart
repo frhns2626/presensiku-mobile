@@ -16,17 +16,33 @@ class PillBadge extends StatelessWidget {
   });
 
   factory PillBadge.fromStatus(String? status) {
-    final s = (status ?? '').toUpperCase();
+    final s = (status ?? '').toUpperCase().trim();
     if (s == 'HADIR' || s == 'APPROVED' || s == 'DISETUJUI') {
-      return PillBadge(text: status ?? 'Hadir', type: BadgeType.success, icon: Icons.check_circle_outline);
-    } else if (s == 'TERLAMBAT' || s == 'PENDING' || s == 'MENUNGGU') {
-      return PillBadge(text: status ?? 'Terlambat', type: BadgeType.warning, icon: Icons.access_time);
-    } else if (s == 'ALPA' || s == 'REJECTED' || s == 'DITOLAK') {
-      return PillBadge(text: status ?? 'Ditolak', type: BadgeType.danger, icon: Icons.highlight_off);
-    } else if (s == 'IZIN' || s == 'SAKIT' || s == 'CUTI') {
-      return PillBadge(text: status ?? 'Izin', type: BadgeType.info, icon: Icons.info_outline);
+      return const PillBadge(text: 'Hadir', type: BadgeType.success, icon: Icons.check_circle_outline);
+    } else if (s == 'TERLAMBAT') {
+      return const PillBadge(text: 'Terlambat', type: BadgeType.warning, icon: Icons.access_time);
+    } else if (s == 'PENDING' || s == 'MENUNGGU') {
+      return const PillBadge(text: 'Menunggu', type: BadgeType.warning, icon: Icons.access_time);
+    } else if (s == 'ALPA') {
+      return const PillBadge(text: 'Alpa', type: BadgeType.danger, icon: Icons.highlight_off);
+    } else if (s == 'REJECTED' || s == 'DITOLAK') {
+      return const PillBadge(text: 'Ditolak', type: BadgeType.danger, icon: Icons.highlight_off);
+    } else if (s == 'SAKIT') {
+      return const PillBadge(text: 'Sakit', type: BadgeType.info, icon: Icons.info_outline);
+    } else if (s == 'IZIN') {
+      return const PillBadge(text: 'Izin', type: BadgeType.info, icon: Icons.info_outline);
+    } else if (s == 'CUTI') {
+      return const PillBadge(text: 'Cuti', type: BadgeType.info, icon: Icons.info_outline);
+    } else if (s == 'BELUM_HADIR' || s == 'BELUM HADIR' || s.isEmpty) {
+      return const PillBadge(text: 'Belum Hadir', type: BadgeType.neutral);
     }
-    return PillBadge(text: status ?? 'Belum Hadir', type: BadgeType.neutral);
+
+    // Ubah format underscore menjadi spasi dengan huruf kapital awal yang rapi
+    final cleanWords = s.replaceAll('_', ' ').split(' ').where((w) => w.isNotEmpty).map((word) {
+      return word[0].toUpperCase() + word.substring(1).toLowerCase();
+    }).join(' ');
+
+    return PillBadge(text: cleanWords.isNotEmpty ? cleanWords : 'Belum Hadir', type: BadgeType.neutral);
   }
 
   @override
