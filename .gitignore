@@ -1,0 +1,49 @@
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Environment & Credentials
+.env
+.env.local
+*.env
+backend/.env
+
+# Documentation / Internal specs
+prd.md
+*.prd.md
+
+
+# Node.js / Backend
+backend/node_modules/
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/public/uploads/attendance/*
+!backend/public/uploads/attendance/.gitkeep
+backend/public/uploads/leave/*
+!backend/public/uploads/leave/.gitkeep
+
+# Flutter / Dart / Mobile
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/.pub-cache/
+mobile/.pub/
+mobile/build/
+mobile/ios/.symlinks/
+mobile/ios/Pods/
+mobile/ios/Podfile.lock
+mobile/android/.gradle/
+mobile/android/local.properties
+mobile/android/key.properties
+mobile/*.iml
+*.iml
+
+# IDE & Editors
+.idea/
+.vscode/
+*.ipr
+*.iws
