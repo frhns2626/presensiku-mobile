@@ -30,7 +30,6 @@
   - [2. Menjalankan Backend API](#2-menjalankan-backend-nodejs)
   - [3. Menjalankan Aplikasi Mobile](#3-menjalankan-aplikasi-flutter-mobile)
 - [Dokumentasi Endpoint API](#-dokumentasi-endpoint-api)
-- [Panduan Push ke GitHub](#-panduan-push-ke-github)
 - [Lisensi](#-lisensi)
 
 ---
@@ -100,13 +99,16 @@ presensi-absen/
 │   └── .env.example          # Template konfigurasi environment
 │
 ├── mobile/                   # Aplikasi Mobile (Flutter)
-│   ├── lib/
+│   ├── android/              # Konfigurasi & native build Android
+│   ├── ios/                  # Konfigurasi & native build iOS
+│   ├── web/                  # Konfigurasi browser web (testing di Brave/Chrome)
+│   ├── lib/                  # Source code aplikasi (Feature-First Architecture)
 │   │   ├── core/             # Konfigurasi global, tema, konstanta, network
 │   │   │   ├── constants/    # Konfigurasi endpoint & warna
 │   │   │   ├── network/      # API Client & Mock Fallback
 │   │   │   ├── theme/        # Tema Material & Typography
 │   │   │   └── widgets/      # Komponen UI reusable (Button, Card, Badge)
-│   │   ├── features/         # Arsitektur Berbasis Fitur (Feature-First)
+│   │   ├── features/         # Modul fitur mandiri
 │   │   │   ├── attendance/   # Layar foto selfie check-in / check-out
 │   │   │   ├── auth/         # Login & Register
 │   │   │   ├── correction/   # Pengajuan koreksi absensi
@@ -116,7 +118,9 @@ presensi-absen/
 │   │   │   ├── profile/      # Profil & pengaturan pengguna
 │   │   │   ├── schedule/     # Jadwal kerja / shift
 │   │   │   └── statistics/   # Grafik & statistik kehadiran
-│   │   └── main.dart         # Entry point aplikasi Flutter
+│   │   ├── main.dart         # Entry point aplikasi Flutter
+│   │   └── main_navigation.dart # Navigasi menu utama
+│   ├── test/                 # Smoke & Unit Test Flutter
 │   └── pubspec.yaml          # Dependensi Flutter
 │
 ├── .gitignore                # Filter file sensitif & file kompilasi
@@ -180,7 +184,7 @@ presensi-absen/
 
 ---
 
-### 3. Menjalankan Aplikasi Flutter (Mobile)
+### 3. Menjalankan Aplikasi Flutter (Mobile & Browser)
 1. Buka terminal baru dan masuk ke folder `mobile`:
    ```bash
    cd mobile
@@ -190,12 +194,23 @@ presensi-absen/
    flutter pub get
    ```
 3. **Catatan Alamat IP Backend (`mobile/lib/core/constants/api_constants.dart`)**:
-   - Jika menggunakan **Android Emulator**, backend otomatis mengarah ke `http://10.0.2.2:3000/api`.
-   - Jika menggunakan **Real Android Device (HP Asli)** melalui kabel USB/WiFi, ganti alamat URL menggunakan **IP LAN komputer** Anda (contoh: `http://192.168.1.10:3000/api`).
-4. Jalankan aplikasi:
-   ```bash
-   flutter run
-   ```
+   - Jika dijalankan di **Browser (Brave / Chrome)**, otomatis mengarah ke `http://localhost:3000/api`.
+   - Jika menggunakan **Android Emulator**, otomatis mengarah ke `http://10.0.2.2:3000/api`.
+   - Jika menggunakan **Real Android Device (HP Asli)** melalui kabel USB/WiFi, gunakan **IP LAN komputer** Anda (contoh: `http://192.168.1.10:3000/api`).
+4. **Jalankan Aplikasi**:
+   - **Di Browser Brave (atau Chrome)**:
+     ```bash
+     # Di Git Bash:
+     export CHROME_EXECUTABLE="C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"
+     flutter run -d chrome
+
+     # Atau via web-server lokal lalu buka di Brave (http://localhost:8080):
+     flutter run -d web-server --web-port=8080
+     ```
+   - **Di HP / Emulator Android**:
+     ```bash
+     flutter run
+     ```
 
 ---
 
@@ -216,32 +231,7 @@ presensi-absen/
 | `GET` | `/api/schedule/my-schedule` | Informasi jadwal kerja & shift | ✅ |
 | `POST` | `/api/correction/submit` | Pengajuan revisi koreksi absensi | ✅ |
 | `GET` | `/api/correction/list` | Riwayat pengajuan koreksi | ✅ |
-
----
-
-## 📤 Panduan Push ke GitHub
-
-Jika Anda baru pertama kali membuat repository di GitHub, ikuti langkah mudah berikut dari root folder proyek:
-
-```bash
-# 1. Inisialisasi git (jika belum)
-git init
-
-# 2. Tambahkan semua file (file sampah & .env sudah otomatis diabaikan oleh .gitignore)
-git add .
-
-# 3. Buat commit pertama
-git commit -m "feat: initial release of presensiku mobile and backend"
-
-# 4. Ganti nama branch utama ke main
-git branch -M main
-
-# 5. Hubungkan ke repository GitHub Anda (ganti URL dengan link repo Anda)
-git remote add origin https://github.com/<username-github-anda>/presensiku-app.git
-
-# 6. Push kode ke GitHub
-git push -u origin main
-```
+| `GET` | `/api/help/faq` | Pusat bantuan & daftar FAQ presensi | ❌ |
 
 ---
 

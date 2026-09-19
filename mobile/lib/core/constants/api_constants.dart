@@ -1,8 +1,8 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 
 class ApiConstants {
-  // Untuk Android Emulator gunakan 10.0.2.2, untuk Windows/Web gunakan localhost, untuk real device gunakan IP LAN
+  // Untuk Web / iOS Simulator gunakan localhost, untuk Android Emulator gunakan 10.0.2.2, untuk Real Device gunakan IP LAN
   static String get baseUrl {
     if (kIsWeb) return 'http://localhost:3000/api';
     if (Platform.isAndroid) return 'http://10.0.2.2:3000/api';
